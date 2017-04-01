@@ -4,7 +4,6 @@ var edges = new EdgeTable();
 var triangles = [];
 var labels = 0;
 
-var selected;
 var ww = 800;
 var wh = 700;
 

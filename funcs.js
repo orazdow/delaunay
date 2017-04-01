@@ -1,28 +1,21 @@
 function addVertices(args){
-var triangle = false;
-if(arguments.length % 2 != 0){
-   if(arguments.length == 7 && arguments[6] === 'TRIANGLE'){
-    triangle = true;
-   }else{
-   	 return;
-   }	
-}
+	var n;
 
-var n;
-
-for (var i = 0; i < arguments.length-1; i+=2) { 
-	n = new Node(arguments[i], arguments[i+1]);
-	nodes.push(n); 
-}
-if(triangle){
- nodes[nodes.length-3].connect(nodes[nodes.length-2]);
- nodes[nodes.length-2].connect(nodes[nodes.length-1]);
- nodes[nodes.length-1].connect(nodes[nodes.length-3]);
- n = new Triangle(nodes[nodes.length-1], nodes[nodes.length-2], nodes[nodes.length-3]);
- triangles.push(n);
- }
- //returns last vertex in args list (meant for 1) or triangle obj
- return n;
+	if(arguments.length == 2){
+		n = new Node(arguments[0], arguments[1]);
+		//nodes.push(n);
+		return n;
+	}
+	if(arguments.length == 7 && arguments[6] === 'TRIANGLE'){
+		var a = new Node(arguments[0], arguments[1]);
+		var b = new Node(arguments[2], arguments[3]);
+		var c = new Node(arguments[4], arguments[5]);
+		//nodes.push(a); nodes.push(b); nodes.push(c);
+		a.connect(b); b.connect(c); a.connect(c);
+		n = new Triangle(a, b, c);
+		triangles.push(n);
+		return n;
+	}
 
 }
 
@@ -81,8 +74,8 @@ var p = triA.getOppositePoint(a, b);
 	d = triB.getOppositePoint(a, b); 
    
 	if(isDelaunay(triA, d)){ return; } 
-
-
+   //  console.log('nope')
+    
   	for (var i = triangles.length; i >= 0; i--){
 		if(triA === triangles[i]){ 
 			triangles.splice(i, 1);  
