@@ -59,9 +59,10 @@ function add_split(x, y){
 
 
 function check(triA, a, b){
-var triB;
+var triB, p, d;
 
-var p = triA.getOppositePoint(a, b); if(!p){return} 
+	p = triA.getOppositePoint(a, b); 
+	if(!p){return} 
 
 	for (var i = triangles.length-1; i > 0; i--) {
 		if(triangles[i].hasEdge(a, b) && triangles[i] !== triA){
@@ -69,12 +70,13 @@ var p = triA.getOppositePoint(a, b); if(!p){return}
 			 break;
 		}  
 	} 
-	if(!triB){return;}
+	if(!triB){return}
 
-var	d = triB.getOppositePoint(a, b); if(!d){return}
+	d = triB.getOppositePoint(a, b); 
+	if(!d){return}
 
-	if(isDelaunay(triA, d)){ return; } 
-   //  console.log('nope')
+	if(isDelaunay(triA, d)){ return } 
+    // console.log('nope')
     
   	for (var i = triangles.length; i >= 0; i--){
 		if(triA === triangles[i]){ 
