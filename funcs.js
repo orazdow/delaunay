@@ -6,7 +6,7 @@ function addVertices(args){
 		//nodes.push(n);
 		return n;
 	}
-	if(arguments.length == 7 && arguments[6] === 'TRIANGLE'){
+	if(arguments.length == 6){
 		var a = new Node(arguments[0], arguments[1]);
 		var b = new Node(arguments[2], arguments[3]);
 		var c = new Node(arguments[4], arguments[5]);
@@ -21,7 +21,7 @@ function addVertices(args){
 
 function add_split(x, y){
 	var t = null;
-    var n = addVertices(x, y);
+    var n = addVertices(x, y); 
     var index = null;
     for (var i = triangles.length-1; i >= 0; i--) {
     	 if(isInTriangle(n, triangles[i])){
@@ -60,8 +60,8 @@ function add_split(x, y){
 
 function check(triA, a, b){
 var triB;
-var d;
-var p = triA.getOppositePoint(a, b);
+
+var p = triA.getOppositePoint(a, b); if(!p){return} 
 
 	for (var i = triangles.length-1; i > 0; i--) {
 		if(triangles[i].hasEdge(a, b) && triangles[i] !== triA){
@@ -69,10 +69,10 @@ var p = triA.getOppositePoint(a, b);
 			 break;
 		}  
 	} 
-	if(triB === undefined){return;}
+	if(!triB){return;}
 
-	d = triB.getOppositePoint(a, b); 
-   
+var	d = triB.getOppositePoint(a, b); if(!d){return}
+
 	if(isDelaunay(triA, d)){ return; } 
    //  console.log('nope')
     
@@ -147,6 +147,7 @@ return [center.x, center.y, r];
 
 //2nd method check performance of both??
 function circumCenter2(tri){
+	
 var a = tri.a; var b = tri.b; var c = tri.c;
 
 var D = (a.x - c.x) * (b.y - c.y) - (b.x - c.x) * (a.y - c.y);

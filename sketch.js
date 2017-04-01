@@ -13,7 +13,7 @@ function setup(){
 	createCanvas(ww, wh);
 	background(100);
 	stroke(255);
-	addVertices(10, wh-10, ww-10, wh-10, ww/2, 10, 'TRIANGLE');
+	addVertices(10, wh-10, ww-10, wh-10, ww/2, 10);
     display();
 
 
