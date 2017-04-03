@@ -11,9 +11,10 @@ function addVertices(args){
 		var b = new Node(arguments[2], arguments[3]);
 		var c = new Node(arguments[4], arguments[5]);
 		//nodes.push(a); nodes.push(b); nodes.push(c);
-		a.connect(b); b.connect(c); a.connect(c);
+		//a.connect(b); b.connect(c); a.connect(c);
 		n = new Triangle(a, b, c);
-		triangles.push(n);
+		//triangles.push(n);
+		triangles.add(n);
 		return n;
 	}
 
@@ -23,84 +24,94 @@ function add_split(x, y){
 	var t = null;
     var n = addVertices(x, y); 
     var index = null;
-    for (var i = triangles.length-1; i >= 0; i--) {
-    	 if(isInTriangle(n, triangles[i])){
-    	 	t = triangles[i]; index = i; break;
+    for (var i = triangles.length()-1; i >= 0; i--) {
+    	 if(isInTriangle(n, triangles.at(i))){
+    	 	t = triangles.at(i); index = i; break;
     	 }
     } 
+
     if(t){ 
 
-	n.connect(t.a);
-	n.connect(t.b);
-	n.connect(t.c);
+    var isboundary = isBoundary(t);
+	 // n.connect(t.a);
+	 // n.connect(t.b);
+	 // n.connect(t.c);
 
 	var a = t.a; 
 	var b = t.b; 
 	var c = t.c;
 
     if(index > 0){ //dont delete supertriangle
-	triangles.splice(index, 1); 
+	triangles.remove(t); 
     }
 
-	var ta = new Triangle(n, a, b);
-	var tb = new Triangle(n, b, c);
-	var tc = new Triangle(n, a, c);
+	var ta = new Triangle(n, a, b); //console.log(isBoundary(ta))
+	var tb = new Triangle(n, b, c); //console.log(isBoundary(tb))
+	var tc = new Triangle(n, a, c); //console.log(isBoundary(tc))
+   
+	 triangles.add(ta);
+	 triangles.add(tb);
+	 triangles.add(tc);
 
-	 triangles.push(ta);
-	 triangles.push(tb);
-	 triangles.push(tc);
 
-   	 check(ta, a, b);
- 	 check(tb, b, c);
-	 check(tc, a, c);
+   	 check(ta, a, b, isboundary);
+ 	 check(tb, b, c, isboundary);
+	 check(tc, a, c, isboundary);
     }
 }
 
 
 
-function check(triA, a, b){
-var triB, p, d;
+function check(triA, a, b, isboundary){
+// https://www.ti.inf.ethz.ch/ew/Lehre/CG13/lecture/Chapter%207.pdf	
+var triB, p, d; 
 
 	p = triA.getOppositePoint(a, b); 
 	if(!p){return} 
 
-	for (var i = triangles.length-1; i > 0; i--) {
-		if(triangles[i].hasEdge(a, b) && triangles[i] !== triA){
-			triB = triangles[i];
-			 break;
-		}  
-	} 
+//	if(isboundary){triA.boundary = isBoundary(triA); }
+
+   // var t1 = performance.now();
+   
+    var aa = triangles.get(a, b); 
+    for (var i = 0; i < aa.length; i++) {
+    	if(aa[i] !== triA){ triB = aa[i]; break;}
+    }
+
+    // for (var i = triangles.length()-1; i >= 0; i--) {
+    // 	if(triangles.at(i).hasEdge(a, b) && triangles.at(i) !== triA){
+    // 		triB = triangles.at(i); break;
+    // 	}
+    // }
+
+     // var t2 = performance.now();
+     // console.log(t2-t1)
+
 	if(!triB){return}
 
 	d = triB.getOppositePoint(a, b); 
 	if(!d){return}
 
-	if(isDelaunay(triA, d)){ return } 
+	if(isDelaunay(triA, d)){ return } //setNeighbors(triA);
     // console.log('nope')
     
-  	for (var i = triangles.length; i >= 0; i--){
-		if(triA === triangles[i]){ 
-			triangles.splice(i, 1);  
-			break;
-		}
-	}
-	for (var i = triangles.length; i >= 0; i--){
-		if(triB === triangles[i]){ 
-			triangles.splice(i, 1); 
-			break;
-		}
-	}	
-     
+	// deleteTriangle(triA);
+	// deleteTriangle(triB);
+	 triangles.remove(triA);
+	 triangles.remove(triB); 
+    
 	 var t1 = new Triangle(p, a, d);
 	 var t2 = new Triangle(p, b, d);
-	 triangles.push(t1);
-	 triangles.push(t2);
+	 // triangles.push(t1);
+	 // triangles.push(t2);
+	 triangles.add(t1);
+	 triangles.add(t2);
 
-	 	a.disconnect(b);
-	 	p.connect(d);
+	 	 // a.disconnect(b);
+	 	 // p.connect(d);
 
-	 	check(t1, a, d);
-	 	check(t2, b, d);
+	 	check(t1, a, d, isboundary);
+	 	check(t2, b, d, isboundary);
     
 }
 
@@ -127,29 +138,10 @@ return ( (0 <= a && a <= 1) && (0 <= b && b <= 1) && (0 <= c && c <= 1) );
 }
 
 
+
 function circumCenter(tri){
-var a = createVector(tri.a.x, tri.a.y);
-var b = createVector(tri.b.x, tri.b.y);
-var c = createVector(tri.c.x, tri.c.y); 
-
-var denom = 2*p5.Vector.cross(p5.Vector.sub(a,b), p5.Vector.sub(b,c)).magSq();
-
-var asclr = p5.Vector.sub(b,c).magSq()*p5.Vector.dot(p5.Vector.sub(a,b),p5.Vector.sub(a,c)) / denom;
-
-var bsclr = p5.Vector.sub(a,c).magSq()*p5.Vector.dot(p5.Vector.sub(b,a),p5.Vector.sub(b,c)) / denom;
-
-var csclr = p5.Vector.sub(a,b).magSq()*p5.Vector.dot(p5.Vector.sub(c,a),p5.Vector.sub(c,b)) / denom;
-
-var center = a.mult(asclr).add(b.mult(bsclr)).add(c.mult(csclr));
-
-var r = dist(center.x, center.y, tri.a.x, tri.a.y);
-
-return [center.x, center.y, r];
-}
-
-//2nd method check performance of both??
-function circumCenter2(tri){
-	
+// https://www.ics.uci.edu/~eppstein/junkyard/circumcenter.html
+// https://en.wikipedia.org/wiki/Circumscribed_circle
 var a = tri.a; var b = tri.b; var c = tri.c;
 
 var D = (a.x - c.x) * (b.y - c.y) - (b.x - c.x) * (a.y - c.y);
@@ -172,6 +164,28 @@ function isDelaunay(tri, point){
 	return ((dist(tri.centerX, tri.centerY, point.x, point.y)-tri.centerRad) >= 0);
 }
 
+
+function isBoundary(t){
+
+	return t.a === s1 || t.b === s1 || t.c === s1 || t.a === s2 || t.b === s2 || t.c === s2 || t.a === s3 || t.b === s3 || t.c === s3;
+
+}
+
+function deleteTriangle(tri){
+	for (var i = triangles.length; i >= 0; i--){
+		if(tri === triangles[i]){ 
+			triangles.splice(i, 1);  
+			break;
+		}
+	}
+}
+
+function setNeighbors(t){
+
+
+
+	
+}
 // function display(a){ //dont use in end, updateCenter called to much...
 // 	background(100);
 // 	noFill();

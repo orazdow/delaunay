@@ -1,9 +1,9 @@
 
 function Node(x, y){
 
-	this.x = x;
-	this.y = y;
-	this.label = ++labels;
+this.x = x;
+this.y = y;
+this.label = ++labels;
 
 this.connect = function(node){   
 edges.add(this, node);
@@ -24,9 +24,10 @@ function Triangle(nodea, nodeb, nodec){
 	this.a = nodea;
 	this.b = nodeb;
 	this.c = nodec;	
+	this.boundary = false;
 
 this.updateCenter = function(){
-	var circ = circumCenter2(this);
+	var circ = circumCenter(this);
 	this.centerX = circ[0];
 	this.centerY = circ[1];
 	this.centerRad = circ[2];	
@@ -84,6 +85,77 @@ this.at = function(index){
 
 this.length = function(){ 
  return Object.keys(this.edges).length;
+}
+
+
+}
+
+function TriangleTable(){
+//can lookup triangles by edge
+this.triangles = {};
+this.edgetriangles = {};
+
+this.add = function(t){
+
+var key = t.a.label+','+t.b.label+','+t.c.label;   
+this.triangles[key] = t;
+
+var edgekeys = [
+t.a.label+','+t.b.label, t.b.label+','+t.c.label, t.a.label+','+t.c.label,
+t.b.label+','+t.a.label, t.c.label+','+t.b.label, t.c.label+','+t.a.label
+];
+ 
+for (var i = 0; i < edgekeys.length; i++) {
+ if(this.edgetriangles[edgekeys[i]] === undefined){ 
+  this.edgetriangles[edgekeys[i]] = []; }	
+}
+for (var i = 0; i < edgekeys.length; i++){
+ // if(!this.edgetriangles[edgekeys[i]].includes(t)){
+  	if(this.edgetriangles[edgekeys[i]].length < 2)
+  	this.edgetriangles[edgekeys[i]].push(t);
+//s  }
+
+}
+  
+}
+
+this.get = function(t, b){
+  //returns triangle or triangle array depending on triangle or edge nodes as arguments
+  if(!b){
+var key = t.a.label+','+t.b.label+','+t.c.label;   
+ return this.triangles[key];
+  }else{
+    var key = t.label+','+b.label;
+     return this.edgetriangles[key];
+  }
+}
+
+this.remove = function(t){
+var key = t.a.label+','+t.b.label+','+t.c.label;   
+delete this.triangles[key];  
+
+var edgekeys = [
+t.a.label+','+t.b.label, t.b.label+','+t.c.label, t.a.label+','+t.c.label,
+t.b.label+','+t.a.label, t.c.label+','+t.b.label, t.c.label+','+t.a.label
+];
+
+for (var i = 0; i < edgekeys.length; i++) {
+if(this.edgetriangles[edgekeys[i]])	
+for (var j = this.edgetriangles[edgekeys[i]].length; j >= 0; j--) {
+	if(this.edgetriangles[edgekeys[i]][j] === t){ 
+	this.edgetriangles[edgekeys[i]].splice(j, 1); break;}	 
+ }
+}
+
+
+}
+
+this.at = function(index){
+return this.triangles[Object.keys(this.triangles)[index]]; 
+}
+
+this.length = function(){ 
+return Object.keys(this.triangles).length;
 }
 
 
