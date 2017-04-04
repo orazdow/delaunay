@@ -24,12 +24,13 @@ function add_split(x, y){
 	var t = null;
     var n = addVertices(x, y); 
     var index = null;
-    for (var i = triangles.length()-1; i >= 0; i--) {
-    	 if(isInTriangle(n, triangles.at(i))){
-    	 	t = triangles.at(i); index = i; break;
-    	 }
-    } 
 
+	var keys = Object.keys(triangles.triangles);	
+	for (var i =  keys.length-1; i >= 0; i--) {
+	     if(isInTriangle(n, triangles.triangles[keys[i]])){
+	     	t = triangles.triangles[keys[i]]; index = i; break;
+	     }
+	}
     if(t){ 
 
     var isboundary = isBoundary(t);
@@ -53,10 +54,10 @@ function add_split(x, y){
 	 triangles.add(tb);
 	 triangles.add(tc);
 
-
    	 check(ta, a, b, isboundary);
  	 check(tb, b, c, isboundary);
 	 check(tc, a, c, isboundary);
+
     }
 }
 
@@ -69,9 +70,7 @@ var triB, p, d;
 	p = triA.getOppositePoint(a, b); 
 	if(!p){return} 
 
-//	if(isboundary){triA.boundary = isBoundary(triA); }
-
-   // var t1 = performance.now();
+	if(isboundary){triA.boundary = isBoundary(triA); }
    
     var aa = triangles.get(a, b); 
     for (var i = 0; i < aa.length; i++) {
@@ -84,8 +83,6 @@ var triB, p, d;
     // 	}
     // }
 
-     // var t2 = performance.now();
-     // console.log(t2-t1)
 
 	if(!triB){return}
 
