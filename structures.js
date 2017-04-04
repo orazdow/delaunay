@@ -79,15 +79,6 @@ this.remove = function(a, b){
  delete this.edges[key];	
 }
 
-this.at = function(index){
- return this.edges[Object.keys(this.edges)[index]];	
-}
-
-this.length = function(){ 
- return Object.keys(this.edges).length;
-}
-
-
 }
 
 function TriangleTable(){
@@ -113,7 +104,7 @@ for (var i = 0; i < edgekeys.length; i++){
  // if(!this.edgetriangles[edgekeys[i]].includes(t)){
   	if(this.edgetriangles[edgekeys[i]].length < 2)
   	this.edgetriangles[edgekeys[i]].push(t);
-//s  }
+//  }
 
 }
   
@@ -146,19 +137,7 @@ for (var j = this.edgetriangles[edgekeys[i]].length; j >= 0; j--) {
 	this.edgetriangles[edgekeys[i]].splice(j, 1); break;}	 
  }
 }
-
-
-}
-
-this.at = function(index){
-return this.triangles[Object.keys(this.triangles)[index]]; 
-}
-
-this.length = function(){ 
-return Object.keys(this.triangles).length;
 }
 
 
 }
-
-

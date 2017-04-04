@@ -24,15 +24,15 @@ function add_split(x, y){
 	var t = null;
     var n = addVertices(x, y); 
     var index = null;
-    for (var i = triangles.length()-1; i >= 0; i--) {
-    	 if(isInTriangle(n, triangles.at(i))){
-    	 	t = triangles.at(i); index = i; break;
-    	 }
-    } 
 
+	var keys = Object.keys(triangles.triangles);	
+	for (var i =  keys.length-1; i >= 0; i--) {
+	     if(isInTriangle(n, triangles.triangles[keys[i]])){
+	     	t = triangles.triangles[keys[i]]; index = i; break;
+	     }
+	}
     if(t){ 
 
-    var isboundary = isBoundary(t);
 	 // n.connect(t.a);
 	 // n.connect(t.b);
 	 // n.connect(t.c);
@@ -45,54 +45,44 @@ function add_split(x, y){
 	triangles.remove(t); 
     }
 
-	var ta = new Triangle(n, a, b); //console.log(isBoundary(ta))
-	var tb = new Triangle(n, b, c); //console.log(isBoundary(tb))
-	var tc = new Triangle(n, a, c); //console.log(isBoundary(tc))
+	var ta = new Triangle(n, a, b); 
+	var tb = new Triangle(n, b, c); 
+	var tc = new Triangle(n, a, c); 
    
 	 triangles.add(ta);
 	 triangles.add(tb);
 	 triangles.add(tc);
 
+   	 check(ta, a, b);
+ 	 check(tb, b, c);
+	 check(tc, a, c);
 
-   	 check(ta, a, b, isboundary);
- 	 check(tb, b, c, isboundary);
-	 check(tc, a, c, isboundary);
     }
 }
 
 
 
-function check(triA, a, b, isboundary){
+function check(triA, a, b){
 // https://www.ti.inf.ethz.ch/ew/Lehre/CG13/lecture/Chapter%207.pdf	
 var triB, p, d; 
 
 	p = triA.getOppositePoint(a, b); 
 	if(!p){return} 
-
-//	if(isboundary){triA.boundary = isBoundary(triA); }
-
-   // var t1 = performance.now();
    
     var aa = triangles.get(a, b); 
     for (var i = 0; i < aa.length; i++) {
     	if(aa[i] !== triA){ triB = aa[i]; break;}
     }
 
-    // for (var i = triangles.length()-1; i >= 0; i--) {
-    // 	if(triangles.at(i).hasEdge(a, b) && triangles.at(i) !== triA){
-    // 		triB = triangles.at(i); break;
-    // 	}
-    // }
-
-     // var t2 = performance.now();
-     // console.log(t2-t1)
-
 	if(!triB){return}
 
 	d = triB.getOppositePoint(a, b); 
 	if(!d){return}
 
-	if(isDelaunay(triA, d)){ return } //setNeighbors(triA);
+	if(isDelaunay(triA, d)){
+	triA.boundary = isBoundary(triA);
+	return 
+	}
     // console.log('nope')
     
 	// deleteTriangle(triA);
@@ -110,8 +100,8 @@ var triB, p, d;
 	 	 // a.disconnect(b);
 	 	 // p.connect(d);
 
-	 	check(t1, a, d, isboundary);
-	 	check(t2, b, d, isboundary);
+	 	check(t1, a, d);
+	 	check(t2, b, d);
     
 }
 
