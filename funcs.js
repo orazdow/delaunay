@@ -36,7 +36,6 @@ function add_split(x, y){
 	 // n.connect(t.a);
 	 // n.connect(t.b);
 	 // n.connect(t.c);
-
 	var a = t.a; 
 	var b = t.b; 
 	var c = t.c;
@@ -53,16 +52,9 @@ function add_split(x, y){
 	 triangles.add(tb);
 	 triangles.add(tc);
 
-<<<<<<< HEAD
    	 check(ta, a, b);
  	 check(tb, b, c);
 	 check(tc, a, c);
-=======
-   	 check(ta, a, b, isboundary);
- 	 check(tb, b, c, isboundary);
-	 check(tc, a, c, isboundary);
->>>>>>> 4c46e66a1ed2a635628e396bdc357ee04ea16c5d
-
     }
 }
 
@@ -74,27 +66,12 @@ var triB, p, d;
 
 	p = triA.getOppositePoint(a, b); 
 	if(!p){return} 
-<<<<<<< HEAD
-=======
-
-	if(isboundary){triA.boundary = isBoundary(triA); }
->>>>>>> 4c46e66a1ed2a635628e396bdc357ee04ea16c5d
    
     var aa = triangles.get(a, b); 
     for (var i = 0; i < aa.length; i++) {
     	if(aa[i] !== triA){ triB = aa[i]; break;}
     }
 
-<<<<<<< HEAD
-=======
-    // for (var i = triangles.length()-1; i >= 0; i--) {
-    // 	if(triangles.at(i).hasEdge(a, b) && triangles.at(i) !== triA){
-    // 		triB = triangles.at(i); break;
-    // 	}
-    // }
-
-
->>>>>>> 4c46e66a1ed2a635628e396bdc357ee04ea16c5d
 	if(!triB){return}
 
 	d = triB.getOppositePoint(a, b); 
