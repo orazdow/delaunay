@@ -13,7 +13,6 @@ function addVertices(args){
 		//nodes.push(a); nodes.push(b); nodes.push(c);
 		//a.connect(b); b.connect(c); a.connect(c);
 		n = new Triangle(a, b, c);
-		//triangles.push(n);
 		triangles.add(n);
 		return n;
 	}
@@ -32,7 +31,6 @@ function add_split(x, y){
 	     }
 	}
     if(t){ 
-
 	 // n.connect(t.a);
 	 // n.connect(t.b);
 	 // n.connect(t.c);
@@ -55,6 +53,7 @@ function add_split(x, y){
    	 check(ta, a, b);
  	 check(tb, b, c);
 	 check(tc, a, c);
+
     }
 }
 
@@ -76,30 +75,26 @@ var triB, p, d;
 
 	d = triB.getOppositePoint(a, b); 
 	if(!d){return}
-
+   
 	if(isDelaunay(triA, d)){
 	triA.boundary = isBoundary(triA);
-	return 
+	return;
 	}
-    // console.log('nope')
-    
-	// deleteTriangle(triA);
-	// deleteTriangle(triB);
+
 	 triangles.remove(triA);
 	 triangles.remove(triB); 
     
 	 var t1 = new Triangle(p, a, d);
 	 var t2 = new Triangle(p, b, d);
-	 // triangles.push(t1);
-	 // triangles.push(t2);
+
 	 triangles.add(t1);
 	 triangles.add(t2);
 
 	 	 // a.disconnect(b);
 	 	 // p.connect(d);
 
-	 	check(t1, a, d);
-	 	check(t2, b, d);
+ 	check(t1, a, d);
+ 	check(t2, b, d);
     
 }
 
@@ -126,7 +121,6 @@ return ( (0 <= a && a <= 1) && (0 <= b && b <= 1) && (0 <= c && c <= 1) );
 }
 
 
-
 function circumCenter(tri){
 // https://www.ics.uci.edu/~eppstein/junkyard/circumcenter.html
 // https://en.wikipedia.org/wiki/Circumscribed_circle
@@ -137,11 +131,9 @@ var D = (a.x - c.x) * (b.y - c.y) - (b.x - c.x) * (a.y - c.y);
 var pX = (((a.x - c.x) * (a.x + c.x) + (a.y - c.y) * (a.y + c.y)) / 2 * (b.y - c.y) 
      -  ((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y)) / 2 * (a.y - c.y)) / D;
 
-
 var pY = (((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y)) / 2 * (a.x - c.x)
      -  ((a.x - c.x) * (a.x + c.x) + (a.y - c.y) * (a.y + c.y)) / 2 * (b.x - c.x)) / D;
     
-
 var r = dist(pX, pY, a.x, a.y);
 
 return [pX, pY, r];    
@@ -149,48 +141,45 @@ return [pX, pY, r];
 
 
 function isDelaunay(tri, point){
-	return ((dist(tri.centerX, tri.centerY, point.x, point.y)-tri.centerRad) >= 0);
+	return ((dist(tri.center.x, tri.center.y, point.x, point.y)-tri.center.r) >= 0);
 }
 
 
 function isBoundary(t){
-
-	return t.a === s1 || t.b === s1 || t.c === s1 || t.a === s2 || t.b === s2 || t.c === s2 || t.a === s3 || t.b === s3 || t.c === s3;
-
+return t.a === s1 || t.b === s1 || t.c === s1 || t.a === s2 || t.b === s2 || t.c === s2 || t.a === s3 || t.b === s3 || t.c === s3;
 }
 
-function deleteTriangle(tri){
-	for (var i = triangles.length; i >= 0; i--){
-		if(tri === triangles[i]){ 
-			triangles.splice(i, 1);  
-			break;
-		}
+
+function setNeighbors(t){
+if(t){	
+var ta, tb, tc;
+var a = triangles.get(t.a, t.b);
+for (var i = 0; i < a.length; i++) {
+	if(a[i] !== t){
+		ta = a[i]; break;
+	}
+}
+var b = triangles.get(t.b, t.c);
+for (var i = 0; i < b.length; i++) {
+	if(b[i] !== t){
+		tb = b[i]; break;
+	}
+}
+var c = triangles.get(t.a, t.c);
+for (var i = 0; i < c.length; i++) {
+	if(c[i] !== t){
+		tc = c[i]; break;
 	}
 }
 
-function setNeighbors(t){
+t.neighborA = ta;
+t.neighborB = tb;
+t.neighborC = tc;	
 
+t.vA = ta.center;
+t.vB = tb.center;
+t.vC = tc.center;
 
-
-	
 }
-// function display(a){ //dont use in end, updateCenter called to much...
-// 	background(100);
-// 	noFill();
-// 	stroke(255);
-// 	for (var i = 0; i < nodes.length; i++) {
-// 	 ellipse(nodes[i].x, nodes[i].y, nodeSize, nodeSize);
-// 	}
-// 	for (var i = 0; i < edges.length; i++) {
-// 		line(edges[i].a.x, edges[i].a.y, edges[i].b.x, edges[i].b.y);
-// 	}
-// 	stroke(255,0,0);
-// 	for (var i = 0; i < triangles.length; i++) {
-// 	if(!a){	
-// 	triangles[i].updateCenter();	
-// 	ellipse(triangles[i].centerX, triangles[i].centerY, 10, 10);
-// 	ellipse(triangles[i].centerX, triangles[i].centerY, triangles[i].centerRad*2, triangles[i].centerRad*2);	
-// 	}	
-// 	}
-// 	highlightTriangle(highlight);
-// }
+}
+

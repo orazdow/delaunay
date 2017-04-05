@@ -28,11 +28,10 @@ function Triangle(nodea, nodeb, nodec){
 
 this.updateCenter = function(){
 	var circ = circumCenter(this);
-	this.centerX = circ[0];
-	this.centerY = circ[1];
-	this.centerRad = circ[2];	
+	this.center = {x: circ[0], y: circ[1], r: circ[2]};	
 }
-    this.updateCenter();
+
+this.updateCenter();
 
 this.hasEdge = function(a, b){
 	var rtn = false;	
@@ -57,7 +56,6 @@ this.getOppositePoint = function(a, b){
 }
 
 }
-
 
 
 function EdgeTable(){
@@ -96,23 +94,20 @@ t.a.label+','+t.b.label, t.b.label+','+t.c.label, t.a.label+','+t.c.label,
 t.b.label+','+t.a.label, t.c.label+','+t.b.label, t.c.label+','+t.a.label
 ];
  
-for (var i = 0; i < edgekeys.length; i++) {
- if(this.edgetriangles[edgekeys[i]] === undefined){ 
-  this.edgetriangles[edgekeys[i]] = []; }	
-}
-for (var i = 0; i < edgekeys.length; i++){
- // if(!this.edgetriangles[edgekeys[i]].includes(t)){
-  	if(this.edgetriangles[edgekeys[i]].length < 2)
-  	this.edgetriangles[edgekeys[i]].push(t);
-//  }
-
-}
+	for (var i = 0; i < edgekeys.length; i++) {
+	 if(this.edgetriangles[edgekeys[i]] === undefined){ 
+	  this.edgetriangles[edgekeys[i]] = []; }	
+	}
+	for (var i = 0; i < edgekeys.length; i++){
+	  	if(this.edgetriangles[edgekeys[i]].length < 2)
+	  	this.edgetriangles[edgekeys[i]].push(t);
+	}
   
 }
 
 this.get = function(t, b){
-  //returns triangle or triangle array depending on triangle or edge nodes as arguments
-  if(!b){
+//returns triangle or triangle array depending on triangle or edge nodes as arguments
+if(!b){
 var key = t.a.label+','+t.b.label+','+t.c.label;   
  return this.triangles[key];
   }else{
