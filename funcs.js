@@ -137,7 +137,7 @@ return [pX, pY, r];
 
 
 function isDelaunay(tri, point){
-	return ((dist(tri.center.x, tri.center.y, point.x, point.y)-tri.center.r) >= 0);
+return ((dist(tri.center.x, tri.center.y, point.x, point.y)-tri.center.r) >= 0);
 }
 
 
@@ -153,9 +153,9 @@ var ta = triangles.getNeighbor(t, t.a, t.b);
 var tb = triangles.getNeighbor(t, t.b, t.c);
 var tc = triangles.getNeighbor(t, t.a, t.c);
 
-t.neighborA = ta;
-t.neighborB = tb;
-t.neighborC = tc;	
+// t.neighborA = ta;
+// t.neighborB = tb;
+// t.neighborC = tc;	
 
 t.vA = ta.center;
 t.vB = tb.center;
