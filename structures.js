@@ -79,13 +79,14 @@ this.remove = function(a, b){
 
 }
 
+
 function TriangleTable(){
-//can lookup triangles by edge
+//can lookup triangles or pairs by edge
 this.triangles = {};
 this.edgetriangles = {};
 
 this.add = function(t){
-
+//hashes triangle and all edge combinations
 var key = t.a.label+','+t.b.label+','+t.c.label;   
 this.triangles[key] = t;
 
@@ -106,7 +107,7 @@ t.b.label+','+t.a.label, t.c.label+','+t.b.label, t.c.label+','+t.a.label
 }
 
 this.get = function(t, b){
-//returns triangle or triangle array depending on triangle or edge nodes as arguments
+//triangle or triangle array depending on triangle or edge nodes as arguments
 if(!b){
 var key = t.a.label+','+t.b.label+','+t.c.label;   
  return this.triangles[key];
@@ -114,6 +115,16 @@ var key = t.a.label+','+t.b.label+','+t.c.label;
     var key = t.label+','+b.label;
      return this.edgetriangles[key];
   }
+}
+//neighbor opposite ab   
+this.getNeighbor = function(t, a, b){
+	var key = a.label+','+b.label;
+	var a = this.edgetriangles[key];
+	for (var i = a.length-1; i >= 0; i--) {
+		if(a[i] !== t){
+			return a[i];
+		}
+	}
 }
 
 this.remove = function(t){

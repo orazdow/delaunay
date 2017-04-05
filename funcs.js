@@ -26,9 +26,9 @@ function add_split(x, y){
 
 	var keys = Object.keys(triangles.triangles);	
 	for (var i =  keys.length-1; i >= 0; i--) {
-	     if(isInTriangle(n, triangles.triangles[keys[i]])){
-	     	t = triangles.triangles[keys[i]]; index = i; break;
-	     }
+     if(isInTriangle(n, triangles.triangles[keys[i]])){
+     	t = triangles.triangles[keys[i]]; index = i; break;
+     }
 	}
     if(t){ 
 	 // n.connect(t.a);
@@ -66,11 +66,7 @@ var triB, p, d;
 	p = triA.getOppositePoint(a, b); 
 	if(!p){return} 
    
-    var aa = triangles.get(a, b); 
-    for (var i = 0; i < aa.length; i++) {
-    	if(aa[i] !== triA){ triB = aa[i]; break;}
-    }
-
+    triB = triangles.getNeighbor(triA, a, b);
 	if(!triB){return}
 
 	d = triB.getOppositePoint(a, b); 
@@ -152,25 +148,10 @@ return t.a === s1 || t.b === s1 || t.c === s1 || t.a === s2 || t.b === s2 || t.c
 
 function setNeighbors(t){
 if(t){	
-var ta, tb, tc;
-var a = triangles.get(t.a, t.b);
-for (var i = 0; i < a.length; i++) {
-	if(a[i] !== t){
-		ta = a[i]; break;
-	}
-}
-var b = triangles.get(t.b, t.c);
-for (var i = 0; i < b.length; i++) {
-	if(b[i] !== t){
-		tb = b[i]; break;
-	}
-}
-var c = triangles.get(t.a, t.c);
-for (var i = 0; i < c.length; i++) {
-	if(c[i] !== t){
-		tc = c[i]; break;
-	}
-}
+
+var ta = triangles.getNeighbor(t, t.a, t.b);
+var tb = triangles.getNeighbor(t, t.b, t.c);
+var tc = triangles.getNeighbor(t, t.a, t.c);
 
 t.neighborA = ta;
 t.neighborB = tb;
