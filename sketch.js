@@ -1,4 +1,3 @@
-
 //var nodes = [];
 //var edges = new EdgeTable();
 var triangles = new TriangleTable();

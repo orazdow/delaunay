@@ -79,14 +79,13 @@ this.remove = function(a, b){
 
 }
 
-
-function TriangleTable(){
 //can lookup triangles or pairs by edge
+function TriangleTable(){
 this.triangles = {};
 this.edgetriangles = {};
 
-this.add = function(t){
 //hashes triangle and all edge combinations
+this.add = function(t){
 var key = t.a.label+','+t.b.label+','+t.c.label;   
 this.triangles[key] = t;
 
@@ -95,19 +94,19 @@ t.a.label+','+t.b.label, t.b.label+','+t.c.label, t.a.label+','+t.c.label,
 t.b.label+','+t.a.label, t.c.label+','+t.b.label, t.c.label+','+t.a.label
 ];
  
-	for (var i = 0; i < edgekeys.length; i++) {
-	 if(this.edgetriangles[edgekeys[i]] === undefined){ 
-	  this.edgetriangles[edgekeys[i]] = []; }	
-	}
-	for (var i = 0; i < edgekeys.length; i++){
-	  	if(this.edgetriangles[edgekeys[i]].length < 2)
-	  	this.edgetriangles[edgekeys[i]].push(t);
-	}
+for (var i = 0; i < edgekeys.length; i++) {
+ if(this.edgetriangles[edgekeys[i]] === undefined){ 
+  this.edgetriangles[edgekeys[i]] = []; }	
+}
+for (var i = 0; i < edgekeys.length; i++){
+  	if(this.edgetriangles[edgekeys[i]].length < 2)
+  	this.edgetriangles[edgekeys[i]].push(t);
+}
   
 }
 
+//returns triangle or triangle array depending on arguments
 this.get = function(t, b){
-//triangle or triangle array depending on triangle or edge nodes as arguments
 if(!b){
 var key = t.a.label+','+t.b.label+','+t.c.label;   
  return this.triangles[key];
@@ -116,7 +115,7 @@ var key = t.a.label+','+t.b.label+','+t.c.label;
      return this.edgetriangles[key];
   }
 }
-//neighbor opposite ab   
+//returns neighbor opposite ab   
 this.getNeighbor = function(t, a, b){
 	var key = a.label+','+b.label;
 	var a = this.edgetriangles[key];
@@ -126,7 +125,7 @@ this.getNeighbor = function(t, a, b){
 		}
 	}
 }
-
+//unhashes triangle
 this.remove = function(t){
 var key = t.a.label+','+t.b.label+','+t.c.label;   
 delete this.triangles[key];  
