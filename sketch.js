@@ -37,7 +37,7 @@ noFill();
 
 for(key in triangles.triangles){
 	var t = triangles.triangles[key]
-		 setNeighbors(t)
+	 setNeighbors(t)
 	if(!t.boundary){
 		if(view === 0 || view === 2){
 		stroke(255);
@@ -61,8 +61,8 @@ function keyPressed() {
 }
 
 function mousePressed(){
-add_split(mouseX, mouseY);
 
+add_split(mouseX, mouseY);
 display();
 
 }
@@ -70,25 +70,19 @@ display();
 // function mouseMoved(){
 // 	display()
 
-// // 	fill(255,0,0,50);
+//  	fill(255,0,0,50);
 //  for(key in triangles.triangles){
 //  	var tri = triangles.triangles[key];
-//  	if(isInTriangle({x:mouseX, y: mouseY}, tri) && tri !== t){
-// // 		triangle(tri.a.x, tri.a.y, tri.b.x, tri.b.y, tri.c.x, tri.c.y); 
+//  	if(isInTriangle({x:mouseX, y: mouseY}, tri) && tri !== st){
+//  		triangle(tri.a.x, tri.a.y, tri.b.x, tri.b.y, tri.c.x, tri.c.y); 
 //  		fill(0,255,0,50);
 
 // 		 triangle(tri.neighborA.a.x, tri.neighborA.a.y, tri.neighborA.b.x, tri.neighborA.b.y, tri.neighborA.c.x, tri.neighborA.c.y); 
-//  		 triangle(tri.neighborB.a.x, tri.neighborB.a.y, tri.neighborB.b.x, tri.neighborB.b.y, tri.neighborB.c.x, tri.neighborB.c.y); 
-//  		 triangle(tri.neighborC.a.x, tri.neighborC.a.y, tri.neighborC.b.x, tri.neighborC.b.y, tri.neighborC.c.x, tri.neighborC.c.y); 
-
+//  		  triangle(tri.neighborB.a.x, tri.neighborB.a.y, tri.neighborB.b.x, tri.neighborB.b.y, tri.neighborB.c.x, tri.neighborB.c.y); 
+//  		  triangle(tri.neighborC.a.x, tri.neighborC.a.y, tri.neighborC.b.x, tri.neighborC.b.y, tri.neighborC.c.x, tri.neighborC.c.y); 
 
 //  		}
 
 //  	}
 
 // }
-
-
-
-
-

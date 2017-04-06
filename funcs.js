@@ -73,6 +73,8 @@ function check(triA, a, b){
    
 	if(isDelaunay(triA, d)){
 	triA.boundary = isBoundary(triA);
+	// setNeighbors(triA); 
+	// setNeighbors(triB);
 	return;
 	}
 
@@ -84,6 +86,10 @@ function check(triA, a, b){
 
 	 triangles.add(t1);
 	 triangles.add(t2);
+
+	 //not any faster as seperate loop
+ 	 // setNeighbors(triangles.getNeighbor(t1, a, p));
+ 	 // setNeighbors(triangles.getNeighbor(t2, b, p));
 
 	 	 // a.disconnect(b);
 	 	 // p.connect(d);
