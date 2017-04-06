@@ -3,7 +3,7 @@ function addVertices(args){
 
 	if(arguments.length == 2){
 		n = new Node(arguments[0], arguments[1]);
-		//nodes.push(n);
+		nodes.push(n);
 		return n;
 	}
 	if(arguments.length == 6){
@@ -38,7 +38,7 @@ function add_split(x, y){
 	var b = t.b; 
 	var c = t.c;
 
-	if(n.x === a.x && n.y === a.y){return} //same point
+	if(n.x === a.x && n.y === a.y){console.log('sp'); return} //same point
 
     if(index > 0){ //dont delete supertriangle
 	triangles.remove(t); 
@@ -87,7 +87,7 @@ function check(triA, a, b){
 	 triangles.add(t1);
 	 triangles.add(t2);
 
-	 //not any faster as seperate loop
+	 //not any faster than seperate loop
  	 // setNeighbors(triangles.getNeighbor(t1, a, p));
  	 // setNeighbors(triangles.getNeighbor(t2, b, p));
 
@@ -152,8 +152,6 @@ return t.a === s1 || t.b === s1 || t.c === s1 || t.a === s2 || t.b === s2 || t.c
 
 
 function setNeighbors(t){
-if(t){	
-
 var ta = triangles.getNeighbor(t, t.a, t.b);
 var tb = triangles.getNeighbor(t, t.b, t.c);
 var tc = triangles.getNeighbor(t, t.a, t.c);
@@ -165,8 +163,6 @@ var tc = triangles.getNeighbor(t, t.a, t.c);
 t.vA = ta.center;
 t.vB = tb.center;
 t.vC = tc.center;
-
-}
 }
 
 
