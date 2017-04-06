@@ -38,6 +38,8 @@ function add_split(x, y){
 	var b = t.b; 
 	var c = t.c;
 
+	if(n.x === a.x && n.y === a.y){return} //same point
+
     if(index > 0){ //dont delete supertriangle
 	triangles.remove(t); 
     }
@@ -61,16 +63,13 @@ function add_split(x, y){
 
 function check(triA, a, b){
 // https://www.ti.inf.ethz.ch/ew/Lehre/CG13/lecture/Chapter%207.pdf	
-var triB, p, d; 
 
-	p = triA.getOppositePoint(a, b); 
-	if(!p){return} 
-   
-    triB = triangles.getNeighbor(triA, a, b);
+	var p = triA.getOppositePoint(a, b); 
+	   
+	var triB = triangles.getNeighbor(triA, a, b);
 	if(!triB){return}
 
-	d = triB.getOppositePoint(a, b); 
-	if(!d){return}
+	var d = triB.getOppositePoint(a, b); 
    
 	if(isDelaunay(triA, d)){
 	triA.boundary = isBoundary(triA);
@@ -163,4 +162,5 @@ t.vC = tc.center;
 
 }
 }
+
 

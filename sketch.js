@@ -16,11 +16,11 @@ noLoop();
 createCanvas(ww, wh);
 background(100);
 stroke(255);
-t = addVertices(-tsize, wh+tsize, ww/2, -tsize, ww+tsize, wh+tsize);
-t.boundary = true;
-s1 = t.a; s2 = t.b; s3 = t.c;
+st = addVertices(-tsize, wh+tsize, ww/2, -tsize, ww+tsize, wh+tsize);
+st.boundary = true;
+s1 = st.a; s2 = st.b; s3 = st.c;
 
-// for (var i = 0; i < 600; i++) {
+// for (var i = 0; i < 1000; i++) {
 // 	add_split(random(ww-10), random(wh-10))
 // }
 // display();
