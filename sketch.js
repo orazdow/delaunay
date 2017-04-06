@@ -1,4 +1,4 @@
-var nodes = [];
+//var nodes = [];
 //var edges = new EdgeTable();
 var triangles = new TriangleTable();
 var labels = 0;
@@ -27,7 +27,6 @@ function draw(){
 	background(100);
     triangles.triangles = [];
     triangles.edgetriangles = [];
-    nodes = [];
  st = addVertices(-tsize, wh+tsize, ww/2, -tsize, ww+tsize, wh+tsize);
 st.boundary = true;
 s1 = st.a; s2 = st.b; s3 = st.c;   
@@ -55,7 +54,7 @@ for(key in triangles.triangles){
          }
          if(view === 1 || view === 2){
 		stroke(255, 0, 0);
-		 ellipse(t.a.x, t.a.y, 5,5); ellipse(t.b.x, t.b.y, 5,5); ellipse(t.c.x, t.c.y, 5,5);
+		 ellipse(t.a.x, t.a.y, 6,6); ellipse(t.b.x, t.b.y, 6,6); ellipse(t.c.x, t.c.y, 6,6);
 		// ellipse(t.center.x, t.center.y, t.center.r*2, t.center.r*2)
 		 line(t.center.x, t.center.y, t.vA.x, t.vA.y);
  		 line(t.center.x, t.center.y, t.vB.x, t.vB.y);

@@ -3,7 +3,7 @@ function addVertices(args){
 
 	if(arguments.length == 2){
 		n = new Node(arguments[0], arguments[1]);
-		nodes.push(n);
+	//	nodes.push(n);
 		return n;
 	}
 	if(arguments.length == 6){
