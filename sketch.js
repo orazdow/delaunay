@@ -12,7 +12,7 @@ var a = 0;
 var b = 0;
 function setup(){
 
-frameRate(20);
+//frameRate(30);
 //noLoop();
 createCanvas(ww, wh);
 background(100);
@@ -32,7 +32,7 @@ function draw(){
 st.boundary = true;
 s1 = st.a; s2 = st.b; s3 = st.c;   
 
-a += 0.01;
+a += 0.003;
 for (var i = 0; i < 20; i++){
 
 	add_split( noise(a, i)*ww, noise(i, a)*ww)
@@ -55,6 +55,8 @@ for(key in triangles.triangles){
          }
          if(view === 1 || view === 2){
 		stroke(255, 0, 0);
+		 ellipse(t.a.x, t.a.y, 5,5); ellipse(t.b.x, t.b.y, 5,5); ellipse(t.c.x, t.c.y, 5,5);
+		// ellipse(t.center.x, t.center.y, t.center.r*2, t.center.r*2)
 		 line(t.center.x, t.center.y, t.vA.x, t.vA.y);
  		 line(t.center.x, t.center.y, t.vB.x, t.vB.y);
 		 line(t.center.x, t.center.y, t.vC.x, t.vC.y);
