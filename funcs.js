@@ -165,4 +165,11 @@ t.vB = tb.center;
 t.vC = tc.center;
 }
 
+function reset(){
+triangles.triangles = [];
+triangles.edgetriangles = [];
+st = addVertices(-3000, wh+3000, ww/2, -3000, ww+3000, wh+3000);
+st.boundary = true;
+s1 = st.a; s2 = st.b; s3 = st.c;  
+}
 
