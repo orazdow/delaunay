@@ -38,7 +38,7 @@ function add_split(x, y){
 	var b = t.b; 
 	var c = t.c;
 
-	if(n.x === a.x && n.y === a.y){console.log('sp'); return} //same point
+	if(n.x === a.x && n.y === a.y){return} //same point
 
     if(index > 0){ //dont delete supertriangle
 	triangles.remove(t); 
