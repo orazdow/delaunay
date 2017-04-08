@@ -36,7 +36,7 @@ if(!t.boundary){
      triangle(t.a.x, t.a.y, t.b.x, t.b.y, t.c.x, t.c.y); 
      }
      if(view === 1 || view === 2){
-	stroke(255);
+	stroke(255, 0, 0);
 	 ellipse(t.a.x, t.a.y, 6,6); ellipse(t.b.x, t.b.y, 6,6); ellipse(t.c.x, t.c.y, 6,6);
 	// ellipse(t.center.x, t.center.y, t.center.r*2, t.center.r*2)
 	 line(t.center.x, t.center.y, t.vA.x, t.vA.y);
