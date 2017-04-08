@@ -24,7 +24,7 @@ display();
 }
 
 function display(){ 
-background(95);
+background(92);
 noFill();
 for(key in triangles.triangles){
 var t = triangles.triangles[key]
