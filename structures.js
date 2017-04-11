@@ -79,7 +79,6 @@ this.remove = function(a, b){
 
 }
 
-//can lookup triangles or pairs by edge
 function TriangleTable(){
 this.triangles = {};
 this.edgetriangles = {};
@@ -105,7 +104,7 @@ for (var i = 0; i < edgekeys.length; i++){
   
 }
 
-//returns triangle or triangle array depending on arguments
+//returns triangle or pair array
 this.get = function(t, b){
 if(!b){
 var key = t.a.label+','+t.b.label+','+t.c.label;   
