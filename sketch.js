@@ -11,6 +11,9 @@ function setup(){
 pixelDensity(1);
 noiseDetail(5, 0.3);
 createCanvas(ww, wh);
+var p = document.createElement('p');
+document.querySelector('body').appendChild(p);
+p.innerHTML = 'press space to change view';
 // noLoop();
 // reset();
 // background(92);
