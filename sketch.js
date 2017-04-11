@@ -14,9 +14,6 @@ createCanvas(ww, wh);
 var p = document.createElement('p');
 document.querySelector('body').appendChild(p);
 p.innerHTML = 'press space to change view';
-// noLoop();
-// reset();
-// background(92);
 }
 
 function draw(){ 
