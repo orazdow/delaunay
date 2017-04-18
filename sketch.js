@@ -35,7 +35,7 @@ var t = triangles.triangles[key]
 if(!t.boundary){
 	if(view === 0 || view === 2){
 	stroke(255);
-	 fill(t.center.r)
+	if(view == 0){fill(t.center.r);} 
      triangle(t.a.x, t.a.y, t.b.x, t.b.y, t.c.x, t.c.y); 
      }
      if(view === 1 || view === 2){
