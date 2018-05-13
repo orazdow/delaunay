@@ -37,7 +37,7 @@ document.title = 'delaunay';
 
 function draw(){ 
 reset();
-if(view < 3){
+if(view < 4){
 a += 0.002; 
   for (var i = 0; i <30; i++){
 	b+=0.00001;
@@ -56,33 +56,30 @@ var t = triangles.triangles[key]
 setNeighbors(t)
 	if(!t.boundary){     //if(true){
 		//triangle display
-	  if(view !=1 && view != 4){
+	  if(view !=1 && view != 5){
 		 stroke(255);
 		 if(view == 0 ){fill(t.center.r);} 
 	     triangle(t.a.x, t.a.y, t.b.x, t.b.y, t.c.x, t.c.y); 
 	   }
        // circle display
-	  if(view === 5){ 
+	  if(view == 3 || view == 7){ 
 	 	 stroke(255, 40, 60);	
 	 	 ellipse(t.center.x, t.center.y, t.center.r*2, t.center.r*2);
 	   }
 
 	 } //helper dots
-	 else if(view === 3 || view === 7){
+	 else if(view == 4 || view == 7){
 	   	stroke(255);
- 	     if(nodes.length === 1 ){
+ 	     if(nodes.length == 1 ){
 	     	ellipse(nodes[0].x, nodes[0].y, 3, 3); 
-	     }else if(nodes.length === 2){
+	     }else if(nodes.length == 2){
 	     	ellipse(nodes[0].x, nodes[0].y, 3,3); ellipse(nodes[1].x, nodes[1].y, 3,3); 
 
 	     } 
 	 }
       // voronoi display
-	 if(view != 0 && view != 3 ){
-	 	if(view < 5){
-		 stroke(255, 40, 60);
-	 	}else{ stroke(150,150,150); }
-
+	 if(view == 1 || view == 2 || view == 5 || view == 6 ){
+	 stroke(255, 40, 60);
 	 ellipse(t.a.x, t.a.y, 6,6); ellipse(t.b.x, t.b.y, 6,6); ellipse(t.c.x, t.c.y, 6,6);
 	 if(t.vA){
   	  line(t.center.x, t.center.y, t.vA.x, t.vA.y);
@@ -96,16 +93,16 @@ setNeighbors(t)
 
 function keyPressed() {
 if (key === ' ') { 
-view = ++view%6;
+view = ++view%8;
 if(view == 0){ loop(); document.querySelector('body').removeChild(p2);}
-if(view == 3){ nodes = []; add = true; document.querySelector('body').appendChild(p2); }
-if(view > 2){noLoop(); display();}	
+if(view == 4){ nodes = []; add = true; document.querySelector('body').appendChild(p2); }
+if(view > 3){noLoop(); display();}	
 } 
 }
 
 function mousePressed(){
 
-  if(view > 2 && mouseY <= wh){
+  if(view > 3 && mouseY <= wh){
 	for (var i = 0; i < nodes.length; i++) {
 		 if(dist(mouseX, mouseY, nodes[i].x, nodes[i].y) <= 8){
 		 	add = false; selected = nodes[i]; break;
@@ -123,7 +120,7 @@ function mousePressed(){
 }	
 
 function mouseDragged(){
-  if(view > 2){
+  if(view > 3){
 	  if(!add){
 	  selected.x = mouseX; selected.y = mouseY;
 	    reset();
