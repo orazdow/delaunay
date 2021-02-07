@@ -1,34 +1,14 @@
-function addVertices(args){
-	var n;
-
-	if(arguments.length == 2){
-		n = new Node(arguments[0], arguments[1]);
-	//	nodes.push(n);
-		return n;
-	}
-	if(arguments.length == 6){
-		var a = new Node(arguments[0], arguments[1]);
-		var b = new Node(arguments[2], arguments[3]);
-		var c = new Node(arguments[4], arguments[5]);
-		//nodes.push(a); nodes.push(b); nodes.push(c);
-		//a.connect(b); b.connect(c); a.connect(c);
-		n = new Triangle(a, b, c);
-		triangles.add(n);
-		return n;
-	}
-
-}
 
 function add_split(x, y){
 	var t = null;
-    var n = addVertices(x, y); 
+    var n = new Node(x, y); 
     var index = null;
 
 	var keys = Object.keys(triangles.triangles);	
-	for (var i =  keys.length-1; i >= 0; i--) {
-     if(isInTriangle(n, triangles.triangles[keys[i]])){
-     	t = triangles.triangles[keys[i]]; index = i; break;
-     }
+	for(var i =  keys.length-1; i >= 0; i--) {
+		if(isInTriangle(n, triangles.triangles[keys[i]])){
+     		t = triangles.triangles[keys[i]]; index = i; break;
+		}
 	}
     if(t){ 
 	 // n.connect(t.a);
@@ -99,77 +79,77 @@ function check(triA, a, b){
     
 }
 
-
-function isInTriangle(point, triangle){
 //from: http://totologic.blogspot.fr/2014/01/accurate-point-in-triangle-test.html
-var a, b, c, x, y, x1, x2, x3, y1, y2, y3;
+function isInTriangle(point, triangle){
+	var a, b, c, x, y, x1, x2, x3, y1, y2, y3;
 
-x = point.x;
-y = point.y;
-x1 = triangle.a.x; 
-x2 = triangle.b.x; 
-x3 = triangle.c.x;
-y1 = triangle.a.y; 
-y2 = triangle.b.y; 
-y3 = triangle.c.y;
+	x = point.x;
+	y = point.y;
+	x1 = triangle.a.x; 
+	x2 = triangle.b.x; 
+	x3 = triangle.c.x;
+	y1 = triangle.a.y; 
+	y2 = triangle.b.y; 
+	y3 = triangle.c.y;
 
-a = ((y2 - y3)*(x - x3) + (x3 - x2)*(y - y3)) / ((y2 - y3)*(x1 - x3) + (x3 - x2)*(y1 - y3));
-b = ((y3 - y1)*(x - x3) + (x1 - x3)*(y - y3)) / ((y2 - y3)*(x1 - x3) + (x3 - x2)*(y1 - y3));
-c = 1 - a - b;
+	a = ((y2 - y3)*(x - x3) + (x3 - x2)*(y - y3)) / ((y2 - y3)*(x1 - x3) + (x3 - x2)*(y1 - y3));
+	b = ((y3 - y1)*(x - x3) + (x1 - x3)*(y - y3)) / ((y2 - y3)*(x1 - x3) + (x3 - x2)*(y1 - y3));
+	c = 1 - a - b;
 
-return ( (0 <= a && a <= 1) && (0 <= b && b <= 1) && (0 <= c && c <= 1) );
-
+	return ( (0 <= a && a <= 1) && (0 <= b && b <= 1) && (0 <= c && c <= 1) );
 }
 
-
-function circumCenter(tri){
 // https://www.ics.uci.edu/~eppstein/junkyard/circumcenter.html
 // https://en.wikipedia.org/wiki/Circumscribed_circle
-var a = tri.a; var b = tri.b; var c = tri.c;
+function circumCenter(tri){
+	var a = tri.a; 
+	var b = tri.b; 
+	var c = tri.c;
 
-var D = (a.x - c.x) * (b.y - c.y) - (b.x - c.x) * (a.y - c.y);
+	var D = (a.x - c.x) * (b.y - c.y) - (b.x - c.x) * (a.y - c.y);
 
-var pX = (((a.x - c.x) * (a.x + c.x) + (a.y - c.y) * (a.y + c.y)) / 2 * (b.y - c.y) 
-     -  ((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y)) / 2 * (a.y - c.y)) / D;
+	var pX = (((a.x - c.x) * (a.x + c.x) + (a.y - c.y) * (a.y + c.y)) / 2 * (b.y - c.y) 
+	     -  ((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y)) / 2 * (a.y - c.y)) / D;
 
-var pY = (((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y)) / 2 * (a.x - c.x)
-     -  ((a.x - c.x) * (a.x + c.x) + (a.y - c.y) * (a.y + c.y)) / 2 * (b.x - c.x)) / D;
-    
-var r = dist(pX, pY, a.x, a.y);
+	var pY = (((b.x - c.x) * (b.x + c.x) + (b.y - c.y) * (b.y + c.y)) / 2 * (a.x - c.x)
+	     -  ((a.x - c.x) * (a.x + c.x) + (a.y - c.y) * (a.y + c.y)) / 2 * (b.x - c.x)) / D;
+	    
+	var r = dist(pX, pY, a.x, a.y);
 
-return [pX, pY, r];    
+	return [pX, pY, r];    
 }
 
 
 function isDelaunay(tri, point){
-return ((dist(tri.center.x, tri.center.y, point.x, point.y)-tri.center.r) >= 0);
+	return ((dist(tri.center.x, tri.center.y, point.x, point.y)-tri.center.r) >= 0);
 }
 
 
 function isBoundary(t){
-return t.a === s1 || t.b === s1 || t.c === s1 || t.a === s2 || t.b === s2 || t.c === s2 || t.a === s3 || t.b === s3 || t.c === s3;
+	return t.a === s1 || t.b === s1 || t.c === s1 || t.a === s2 || t.b === s2 || t.c === s2 || t.a === s3 || t.b === s3 || t.c === s3;
 }
 
 
 function setNeighbors(t){
-var ta = triangles.getNeighbor(t, t.a, t.b);
-var tb = triangles.getNeighbor(t, t.b, t.c);
-var tc = triangles.getNeighbor(t, t.a, t.c);
+	var ta = triangles.getNeighbor(t, t.a, t.b);
+	var tb = triangles.getNeighbor(t, t.b, t.c);
+	var tc = triangles.getNeighbor(t, t.a, t.c);
 
-// t.neighborA = ta;
-// t.neighborB = tb;
-// t.neighborC = tc;	
+	// t.neighborA = ta;
+	// t.neighborB = tb;
+	// t.neighborC = tc;	
 
-t.vA = ta.center;
-t.vB = tb.center;
-t.vC = tc.center;
+	t.vA = ta.center;
+	t.vB = tb.center;
+	t.vC = tc.center;
 }
 
 function reset(){
-triangles.triangles = [];
-triangles.edgetriangles = [];
-st = addVertices(-3000, wh+3000, ww/2, -3000, ww+3000, wh+3000);
-st.boundary = true;
-s1 = st.a; s2 = st.b; s3 = st.c;  
+	triangles.triangles = [];
+	triangles.edgetriangles = [];
+	st = new Triangle(new Node(-3000, wh+3000), new Node(ww/2, -3000), new Node(ww+3000, wh+3000));
+	triangles.add(st);
+	st.boundary = true;
+	s1 = st.a; s2 = st.b; s3 = st.c;  
 }
 
